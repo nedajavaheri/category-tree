@@ -11,11 +11,35 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
+    "noLib": false,
     "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "typeRoots": [
+      "node_modules/@types",
+      "types"
+    ],
+    "paths": {
+      "@root": [
+        "src"
+      ],
+      "@config": [
+        "src/config"
+      ],
+      "@environments": [
+        "src/environments"
+      ],
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "test"
+  ],
+  "compileOnSave": false,
+  "exclude": [
+    "node_modules",
+    "coverage",
+    "document",
+    "dist",
+    "backup",
+    "**/*.spec.ts"
+  ]
 }

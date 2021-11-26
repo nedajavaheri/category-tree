@@ -1,7 +1,7 @@
-import { CategoryEntity } from './category.entity';
+import { Category } from './category.entity';
 
-describe('CategoryEntity', () => {
+describe('Category', () => {
   it('should be defined', () => {
-    expect(new CategoryEntity()).toBeDefined();
+    expect(new Category()).toBeDefined();
   });
 });
