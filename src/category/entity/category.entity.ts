@@ -7,7 +7,7 @@ export class Category {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: false, unique: true })
+    @Column({ nullable: false })
     name: string;
 
     @TreeChildren()

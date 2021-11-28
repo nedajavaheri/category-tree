@@ -11,7 +11,7 @@ export class CategoryDto {
 
 
     @IsNumber()
-    id?: number;
+    readonly id?: number;
 
     @IsOptional()
     parent_id?: number;

@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, TreeRepository } from 'typeorm';
 import { CategoryDto } from '../dto';
 import { Category } from '../entity/category.entity';
 
 @Injectable()
 export class CategoryService {
-    constructor(@InjectRepository(Category) private categoryRepository: Repository<Category>) { }
+    constructor(@InjectRepository(Category) private categoryRepository: Repository<Category>,
+        @InjectRepository(Category) private categoryTreeRepository: TreeRepository<Category>) { }
 
     async create(categoryDto: CategoryDto): Promise<CategoryDto> {
         try {
@@ -27,22 +28,18 @@ export class CategoryService {
         }
 
     }
+
     async find(): Promise<CategoryDto[]> {
-        return (await this.categoryRepository.find()).map(x => {
-            let item = x.parent ? new CategoryDto(x.id, x.name, x.parent.id) : new CategoryDto(x.id, x.name);
-            return item;
-        });
+        return (await this.categoryTreeRepository.findTrees());
     }
-    async findOne(id: number): Promise<CategoryDto> {
-        const result = await this.categoryRepository.findOne(id);
-        return result.parent ? new CategoryDto(result.id, result.name, result.parent.id) : new CategoryDto(result.id, result.name);
+
+    async findByParentId(id: number): Promise<CategoryDto> {
+        let rootCategory = await this.categoryRepository.findOne(id);
+        return (await this.categoryTreeRepository.findDescendantsTree(rootCategory));
     }
-    async findOneByName(name: string): Promise<CategoryDto> {
-        const result = await this.categoryRepository.findOne(name);
-        return result.parent ? new CategoryDto(result.id, result.name, result.parent.id) : new CategoryDto(result.id, result.name);
-    }
+
     async delete(id: number) {
-        return this.categoryRepository.delete(id);
+        await this.categoryRepository.delete(id);
     }
 
 }
