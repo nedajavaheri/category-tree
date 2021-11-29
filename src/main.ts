@@ -9,21 +9,21 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   try {
-    const app = await NestFactory.create(AppModule);
-    
+    const app = await NestFactory.create(AppModule, { logger: ['error', 'warn'] });
+
     const connection = getConnection('default');
     const { isConnected } = connection
     isConnected
       ? Logger.log(`🌱  Database connected`, 'TypeORM', false)
       : Logger.error(`❌  Database connect error`, '', 'TypeORM', false)
 
-    // NOTE: adapter for e2e testing
+    //* NOTE: adapter for e2e testing
     app.getHttpAdapter()
 
-    // NOTE: compression
+    //* NOTE: compression
     app.use(compression())
 
-    // NOTE: body parser
+    //* NOTE: body parser middleware
     app.use(bodyParser.json({ limit: '50mb' }));
     app.use(
       bodyParser.urlencoded({
@@ -33,7 +33,8 @@ async function bootstrap() {
       })
     );
 
-    app.enableShutdownHooks()
+    //* NOTE: shot down hooks 
+    app.enableShutdownHooks();
 
     await app.listen(PORT);
 

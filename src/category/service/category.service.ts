@@ -8,7 +8,7 @@ import { Category } from '../entity/category.entity';
 export class CategoryService {
     constructor(@InjectRepository(Category) private readonly categoryRepository: TreeRepository<Category>) { }
 
-    async insertOne(categoryDto: CategoryDto): Promise<Category> {
+    async insertOne(categoryDto: CategoryDto): Promise<CategoryDto> {
         try {
 
             const category = await this.categoryRepository.create(categoryDto);
@@ -26,15 +26,15 @@ export class CategoryService {
 
     }
 
-    async getList(): Promise<Category[]> {
+    async getList(): Promise<CategoryDto[]> {
         return (await this.categoryRepository.findTrees());
     }
 
-    async getOne(name: string): Promise<Category> {
+    async getOne(name: string): Promise<CategoryDto> {
         return await this.categoryRepository.findOne(name);
     }
 
-    async getListByParentId(id: number): Promise<Category> {
+    async getListByParentId(id: number): Promise<CategoryDto> {
         let rootCategory = await this.categoryRepository.findOne(id);
         return await this.categoryRepository.findAncestorsTree(rootCategory);
     }
