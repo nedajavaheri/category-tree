@@ -8,7 +8,7 @@ export class CategoryDto {
         if (parent_id)
             this.parent_id;
     }
-
+   
 
     @IsNumber()
     readonly id?: number;

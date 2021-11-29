@@ -9,19 +9,19 @@ export class CategoryController {
     constructor(private categoryService: CategoryService) { }
     @Post()
     create(@Body() category: CategoryDto): Promise<CategoryDto> {
-        return this.categoryService.create(category);
+        return this.categoryService.insertOne(category);
     }
 
     @Get()
-    async find(@Query('id') id: number) {
+    async find(@Query('id') id?: number) {
         if (id)
-            return this.categoryService.findByParentId(id);
-        return this.categoryService.find();
+            return this.categoryService.getListByParentId(id);
+        return this.categoryService.getList();
     }
 
     @Delete(':id')
     async delete(@Param('id') id: number) {
-        this.categoryService.delete(id);
+        return this.categoryService.deleteOne(id);
     }
 
 }

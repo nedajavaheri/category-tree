@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, Tree, TreeChildren, TreeParent, TreeLevelColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, TreeChildren, TreeParent, Tree } from "typeorm";
 
 @Entity('categories')
 @Tree("closure-table")
@@ -15,4 +15,11 @@ export class Category {
 
     @TreeParent()
     parent: Category;
+
+    constructor(name: string, parent?: Category);
+    constructor(name: string, parent: Category);
+    constructor(name?: string, parent?: Category) {
+        this.name = name || '';
+        this.parent = parent || undefined;
+    }
 }

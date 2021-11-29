@@ -18,10 +18,10 @@ export class CategorySeed {
     private async seedCategories(categories_to_seed: CategoryDto[]): Promise<CategoryDto[]> {
         let categories: CategoryDto[] = [];
         for (let category_to_seed of categories_to_seed) {
-            const existCategory = await this.categoryService.findOneByName(category_to_seed.name);
+            const existCategory = await this.categoryService.getOne(category_to_seed.name);
             if (existCategory)
-                this.categoryService.delete(existCategory.id);
-            const category = await this.categoryService.create(category_to_seed);
+                this.categoryService.deleteOne(existCategory.id);
+            const category = await this.categoryService.insertOne(category_to_seed);
             categories.push(category);
         }
 
